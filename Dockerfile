@@ -12,12 +12,7 @@ RUN dpkg --add-architecture i386 && \
 	apt-get -y update && \
 	apt-get -y upgrade && \
 	apt-get install --no-install-recommends -y \
-	wget
-
-RUN wget -q --show-progress --progress=bar:force:noscroll --no-check-certificate https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v${ZSDK_VERSION}/zephyr-sdk-${ZSDK_VERSION}-x86_64-linux-setup.run && \
-	wget -q --show-progress --progress=bar:force:noscroll --no-check-certificate https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-Linux-x86_64.sh
-
-RUN apt-get install --no-install-recommends -y \
+	wget \
 	autoconf \
 	automake \
 	build-essential \
@@ -56,6 +51,7 @@ RUN apt-get install --no-install-recommends -y \
 	xz-utils && \
 	rm -rf /var/lib/apt/lists/*
 
+
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
@@ -67,22 +63,26 @@ RUN pip3 install wheel &&\
 	pip3 install west &&\
 	pip3 install sh
 
-RUN mkdir -p /opt/toolchains
+RUN mkdir -p /opt/
 
-RUN sh "zephyr-sdk-${ZSDK_VERSION}-x86_64-linux-setup.run" --quiet -- -d /opt/zephyr-sdk-${ZSDK_VERSION} && \
-	rm "zephyr-sdk-${ZSDK_VERSION}-x86_64-linux-setup.run"
-
-RUN chmod +x cmake-${CMAKE_VERSION}-Linux-x86_64.sh && \
+RUN wget -q --show-progress --progress=bar:force:noscroll --no-check-certificate https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v${ZSDK_VERSION}/zephyr-sdk-${ZSDK_VERSION}-x86_64-linux-setup.run && \
+	wget -q --show-progress --progress=bar:force:noscroll --no-check-certificate https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-Linux-x86_64.sh && \
+	sh "zephyr-sdk-${ZSDK_VERSION}-x86_64-linux-setup.run" --quiet -- -d /opt/zephyr-sdk-${ZSDK_VERSION} && \
+	rm "zephyr-sdk-${ZSDK_VERSION}-x86_64-linux-setup.run" && \
+	chmod +x cmake-${CMAKE_VERSION}-Linux-x86_64.sh && \
 	./cmake-${CMAKE_VERSION}-Linux-x86_64.sh --skip-license --prefix=/usr/local && \
 	rm -f ./cmake-${CMAKE_VERSION}-Linux-x86_64.sh
 
-RUN groupadd -g $GID -o user
-
-RUN useradd -u $UID -m -g user -G plugdev user \
+RUN groupadd -g $GID -o user \
+	&& useradd -u $UID -m -g user -G plugdev user \
 	&& echo 'user ALL = NOPASSWD: ALL' > /etc/sudoers.d/user \
-	&& chmod 0440 /etc/sudoers.d/user
-RUN chown -R user:user /home/user
+	&& chmod 0440 /etc/sudoers.d/user \
+	&& chown -R user:user /home/user
 
 VOLUME /src
 WORKDIR /src
+
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+#CMD ["/bin/bash"]
 
