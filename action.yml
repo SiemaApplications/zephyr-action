@@ -1,0 +1,47 @@
+name: 'Zephyr West Actions'
+description: 'Perform West actions to initialize/update/build a zephyr out-of-tree module'
+
+inputs:
+  manifestdir:
+    description: >
+      Directory where out-of-tree zephyr module containing a West manifest has
+      been checked out.
+    required: True
+
+  init:
+    description: >
+      When set to true, initialiaze West Workplace, based on manifestdir
+      specified in user's workflow.
+    required: false
+    default: false
+
+  update:
+    description: 'When set to true, update repository based on manifest'
+    required: false
+    default: false
+
+  twister:
+    description: >
+      When set to true, runs twister test suite on directory specified in
+      twister_app_dir with board defined in twister_board.
+    required: false
+    default: false
+
+  twister_app_dir:
+    description: >
+      Mandatory when twister is set to true.
+      This variable must contains a path to the application that will be built
+      by twister.
+    required: false
+
+  twister_board:
+    description: >
+      Mandatory when twister is set to true.
+      This variable must contains the name of the board that twister will compile for.
+    required: false
+
+  twister_board_root:
+    description: >
+      Directory to search for board configuration files and passed to twister
+      option --board-root.
+    required: false
