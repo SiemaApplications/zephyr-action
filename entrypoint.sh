@@ -1,5 +1,4 @@
 #!/bin/bash -e
-set -x
 MANIFESTDIR=${INPUT_MANIFESTDIR:?INPUT_MANIFESTDIR must be specified}
 INIT=${INPUT_INIT:-false}
 UPDATE=${INPUT_UPDATE:-false}
@@ -25,7 +24,6 @@ if [ "${TWISTER}" = "true" ]; then
             exit 1
         fi
     fi
-    set -x
     ./zephyr/scripts/twister -p ${TWISTER_BOARD} ${TWISTER_BOARD_ROOT_ARG} \
         -T ${TWISTER_APP_DIR}
 
