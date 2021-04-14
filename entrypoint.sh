@@ -3,6 +3,7 @@ MANIFESTDIR=${INPUT_MANIFESTDIR:?INPUT_MANIFESTDIR must be specified}
 INIT=${INPUT_INIT:-false}
 UPDATE=${INPUT_UPDATE:-false}
 TWISTER=${INPUT_TWISTER:-false}
+BUILD=${INPUT_BUILD:-false}
 
 
 if [ "${INIT}" = "true" ]; then
@@ -11,6 +12,13 @@ fi
 
 if [ "${UPDATE}" = "true" ]; then
     west update
+fi
+
+if [ "${BUILD}" = "true" ]; then
+    BUILD_BOARD=${INPUT_BUILD_BOARD:?Missing board target name}
+    BUILD_APP_DIR=${INPUT_BUILD_APP_DIR:?Missing application directory}
+    BUILD_DIR=${INPUT_BUILD_DIR:-build/${BUILD_BOARD}/$(dirname ${BUILD_APP_DIR})}
+    west build -p auto -b ${BUILD_BOARD} -d ${BUILD_DIR} ${BUILD_APP_DIR}
 fi
 
 if [ "${TWISTER}" = "true" ]; then

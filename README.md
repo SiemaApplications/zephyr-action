@@ -3,7 +3,7 @@ This action is used to manage `west` repository. (init, update, build, ...)
 
 # Usage
 ```yaml
-- uses: SiemaApplications/zephyr-action@v1
+- uses: SiemaApplications/zephyr-action@v1.1.0
   with:
     manifestdir: 'out-of-tree-manifest-repository'
     init: 'true'
@@ -11,6 +11,9 @@ This action is used to manage `west` repository. (init, update, build, ...)
     twister: 'true'
     twister_app_dir: 'out-of-tree-manifest-repository/app1'
     twister_board: 'nucleo_h743zi'
+    build: 'true'
+    build_app_dir: 'out-of-tree-manifest-repository/app2'
+    build_board: 'nucleo_f091rc'
 ```
 
 # Use docker image locally

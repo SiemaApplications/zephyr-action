@@ -37,7 +37,6 @@ inputs:
   twister_board:
     description: >
       Mandatory when twister is set to true.
-      This variable must contains the name of the board that twister will compile for.
     required: false
 
   twister_board_root:
@@ -46,6 +45,32 @@ inputs:
       option --board-root.
     required: false
 
+  build:
+    description: >
+      When set to true, runs west build on directory specified in build_app_dir
+      with board defined in build_board.
+    required: false
+    default: false
+
+  build_board:
+    description: >
+      Mandatory when build is set to true.
+      This variable must contains the name of the board that west will compile for.
+    required: false
+
+  build_app_dir:
+    description: >
+      Mandatory when build is set to true.
+      This variable must contains a path to the application that will be built
+      by west.
+    required: false
+
+  build_dir:
+    description: >
+      Directory where built files are placed.
+    required: false
+
+
 runs:
   using: 'docker'
-  image: 'docker://ghcr.io/siemaapplications/zephyr-action:v1'
+  image: 'docker://ghcr.io/siemaapplications/zephyr-action:v1.1.0'
