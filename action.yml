@@ -37,6 +37,7 @@ inputs:
   twister_board:
     description: >
       Mandatory when twister is set to true.
+      This variable must contains the name of the board that twister will compile for.
     required: false
 
   twister_board_root:
