@@ -45,3 +45,7 @@ inputs:
       Directory to search for board configuration files and passed to twister
       option --board-root.
     required: false
+
+runs:
+  using: 'docker'
+  image: 'docker://ghcr.io/siemaapplications/zephyr-action:v1-beta'
