@@ -1,4 +1,5 @@
 #!/bin/bash -e
+set -x
 MANIFESTDIR=${INPUT_MANIFESTDIR:?INPUT_MANIFESTDIR must be specified}
 INIT=${INPUT_INIT:-false}
 UPDATE=${INPUT_UPDATE:-false}

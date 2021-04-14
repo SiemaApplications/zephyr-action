@@ -3,7 +3,7 @@ This action is used to manage `west` repository. (init, update, build, ...)
 
 # Usage
 ```yaml
-- uses: SiemaApplications/zephyr-action@v1-beta
+- uses: SiemaApplications/zephyr-action@v1-beta2
   with:
     manifestdir: 'out-of-tree-manifest-repository'
     init: 'true'

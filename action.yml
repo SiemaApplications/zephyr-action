@@ -48,4 +48,4 @@ inputs:
 
 runs:
   using: 'docker'
-  image: 'docker://ghcr.io/siemaapplications/zephyr-action:v1-beta'
+  image: 'docker://ghcr.io/siemaapplications/zephyr-action:v1-beta2'
