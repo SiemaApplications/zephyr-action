@@ -2,7 +2,7 @@ FROM ubuntu:20.04
 
 LABEL org.opencontainers.image.source https://github.com/SiemaApplications/zephyr-action
 
-ARG ZSDK_VERSION=0.12.4
+ARG ZSDK_VERSION=0.12.2
 ARG CMAKE_VERSION=3.18.3
 
 ARG UID=1000
