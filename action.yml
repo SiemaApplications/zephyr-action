@@ -71,6 +71,11 @@ inputs:
       Directory where built files are placed.
     required: false
 
+  cmake_extra_args:
+    description: >
+      arguments passed directly to cmake by west command.
+    required: false
+
 
 runs:
   using: 'docker'
