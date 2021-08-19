@@ -11,7 +11,7 @@ if [ "${INIT}" = "true" ]; then
 fi
 
 if [ "${UPDATE}" = "true" ]; then
-    west update
+    west update ${INPUT_UPDATE_EXTRA_ARGS}
 fi
 
 if [ "${BUILD}" = "true" ]; then
