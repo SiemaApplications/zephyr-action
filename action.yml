@@ -20,6 +20,10 @@ inputs:
     required: false
     default: false
 
+  update_extra_args:
+    description: 'When defined, must contains space separated list of modules to update'
+    requried: false
+
   twister:
     description: >
       When set to true, runs twister test suite on directory specified in
