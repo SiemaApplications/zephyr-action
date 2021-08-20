@@ -2,8 +2,6 @@ FROM ubuntu:20.04
 
 LABEL org.opencontainers.image.source https://github.com/SiemaApplications/zephyr-action
 
-ARG ZSDK_VERSION=0.12.2
-
 ARG UID=1000
 ARG GID=1000
 
@@ -67,9 +65,11 @@ RUN pip3 install wheel &&\
 
 RUN mkdir -p /opt/
 
-RUN wget -q --show-progress --progress=bar:force:noscroll --no-check-certificate https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v${ZSDK_VERSION}/zephyr-sdk-${ZSDK_VERSION}-x86_64-linux-setup.run && \
-	sh "zephyr-sdk-${ZSDK_VERSION}-x86_64-linux-setup.run" --quiet -- -d /opt/zephyr-sdk-${ZSDK_VERSION} && \
-	rm "zephyr-sdk-${ZSDK_VERSION}-x86_64-linux-setup.run"
+ARG ZSDK_VERSION=0.12.2
+ARG ARCH=arm
+RUN wget -q --show-progress --progress=bar:force:noscroll --no-check-certificate https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v${ZSDK_VERSION}/zephyr-toolchain-${ARCH}-${ZSDK_VERSION}-x86_64-linux-setup.run && \
+	sh "zephyr-toolchain-${ARCH}-${ZSDK_VERSION}-x86_64-linux-setup.run" --quiet -- -d /opt/zephyr-sdk-${ZSDK_VERSION} && \
+	rm "zephyr-toolchain-${ARCH}-${ZSDK_VERSION}-x86_64-linux-setup.run"
 
 RUN groupadd -g $GID -o user \
 	&& useradd -u $UID -m -g user -G plugdev user \
