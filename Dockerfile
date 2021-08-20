@@ -3,7 +3,6 @@ FROM ubuntu:20.04
 LABEL org.opencontainers.image.source https://github.com/SiemaApplications/zephyr-action
 
 ARG ZSDK_VERSION=0.12.2
-ARG CMAKE_VERSION=3.18.3
 
 ARG UID=1000
 ARG GID=1000
@@ -38,6 +37,7 @@ RUN dpkg --add-architecture i386 && \
 	libtool \
 	locales \
 	make \
+	cmake \
 	net-tools \
 	ninja-build \
 	openbox \
@@ -68,12 +68,8 @@ RUN pip3 install wheel &&\
 RUN mkdir -p /opt/
 
 RUN wget -q --show-progress --progress=bar:force:noscroll --no-check-certificate https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v${ZSDK_VERSION}/zephyr-sdk-${ZSDK_VERSION}-x86_64-linux-setup.run && \
-	wget -q --show-progress --progress=bar:force:noscroll --no-check-certificate https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-Linux-x86_64.sh && \
 	sh "zephyr-sdk-${ZSDK_VERSION}-x86_64-linux-setup.run" --quiet -- -d /opt/zephyr-sdk-${ZSDK_VERSION} && \
-	rm "zephyr-sdk-${ZSDK_VERSION}-x86_64-linux-setup.run" && \
-	chmod +x cmake-${CMAKE_VERSION}-Linux-x86_64.sh && \
-	./cmake-${CMAKE_VERSION}-Linux-x86_64.sh --skip-license --prefix=/usr/local && \
-	rm -f ./cmake-${CMAKE_VERSION}-Linux-x86_64.sh
+	rm "zephyr-sdk-${ZSDK_VERSION}-x86_64-linux-setup.run"
 
 RUN groupadd -g $GID -o user \
 	&& useradd -u $UID -m -g user -G plugdev user \
