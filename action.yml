@@ -83,4 +83,6 @@ inputs:
 
 runs:
   using: 'docker'
-  image: 'docker://ghcr.io/siemaapplications/zephyr-action:v2.0.1'
+  image: 'docker://ghcr.io/siemaapplications/zephyr-action:v2.0.2'
+  entrypoint: '/entrypoint.sh'
+  post-entrypoint: '/cleanup.sh'
