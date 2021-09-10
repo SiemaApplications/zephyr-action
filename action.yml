@@ -50,6 +50,11 @@ inputs:
       option --board-root.
     required: false
 
+  twister_build_dir:
+    description: >
+      Output directory for twister.
+    required: false
+
   build:
     description: >
       When set to true, runs west build on directory specified in build_app_dir

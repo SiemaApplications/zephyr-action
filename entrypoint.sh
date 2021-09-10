@@ -1,9 +1,9 @@
 #!/bin/sh -e
-MANIFESTDIR=${INPUT_MANIFESTDIR:?INPUT_MANIFESTDIR must be specified}
-INIT=${INPUT_INIT:-false}
-UPDATE=${INPUT_UPDATE:-false}
-TWISTER=${INPUT_TWISTER:-false}
-BUILD=${INPUT_BUILD:-false}
+MANIFESTDIR="${INPUT_MANIFESTDIR:?INPUT_MANIFESTDIR must be specified}"
+INIT="${INPUT_INIT:-false}"
+UPDATE="${INPUT_UPDATE:-false}"
+TWISTER="${INPUT_TWISTER:-false}"
+BUILD="${INPUT_BUILD:-false}"
 
 
 if [ "${INIT}" = "true" ]; then
@@ -28,13 +28,16 @@ if [ "${TWISTER}" = "true" ]; then
     TWISTER_APP_DIR="${INPUT_TWISTER_APP_DIR:?Missing application directory}"
     if [ ! -z "${INPUT_TWISTER_BOARD_ROOT}" ]; then
         if [ -d ${INPUT_TWISTER_BOARD_ROOT} ]; then
-            TWISTER_BOARD_ROOT_ARG="-A ${INPUT_TWISTER_BOARD_ROOT}"
+            TWISTER_ARGS="-A ${INPUT_TWISTER_BOARD_ROOT}"
         else
             echo "Error: INPUT_TWISTER_BOARD_ROOT: invalid directory ${INPUT_TWISTER_BOARD_ROOT}"
             exit 1
         fi
+        if [ ! -z ${INPUT_TWISTER_BUILD_DIR} ]; then
+            TWISTER_ARGS="${TWISTER_ARGS} -O ${INPUT_TWISTER_BUILD_DIR}"
+        fi
     fi
-    ./zephyr/scripts/twister -p "${TWISTER_BOARD}" ${TWISTER_BOARD_ROOT_ARG} \
+    ./zephyr/scripts/twister -p "${TWISTER_BOARD}" ${TWISTER_ARGS} \
         -T "${TWISTER_APP_DIR}"
 
 fi
