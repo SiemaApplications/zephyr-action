@@ -85,9 +85,34 @@ inputs:
       arguments passed directly to cmake by west command.
     required: false
 
+  sign:
+    description: >
+      When set to true, sign the apps provided in the signing manifest.
+    required: false
+    default: false
+
+  sign_manifest:
+    description: >
+      Mandatory when sign is set to true.
+      Path to file containing the applications to sign and their respective version.
+      On each line of the file there should be first the application directory
+      and the version separated by a ';'
+    required: false
+
+  sign_key:
+    description: >
+      Path to signing key.
+    required: false
+    default: bootloader/mcuboot/root-rsa-2048.pem
+
+  sign_alignment:
+    description: >
+      Flash alignement in bytes.
+    required: false
+    default: 32
 
 runs:
   using: 'docker'
-  image: 'docker://ghcr.io/siemaapplications/zephyr-action:v2.0.2'
+  image: 'docker://ghcr.io/siemaapplications/zephyr-action:v2.1.0'
   entrypoint: '/entrypoint.sh'
   post-entrypoint: '/cleanup.sh'
