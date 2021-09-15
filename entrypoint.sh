@@ -6,14 +6,19 @@ TWISTER="${INPUT_TWISTER:-false}"
 BUILD="${INPUT_BUILD:-false}"
 SIGN="${INPUT_SIGN:-false}"
 
+env
 
 if [ "${INIT}" = "true" ]; then
+    set -x
     west init -l ${MANIFESTDIR}
+    set +x
 fi
 
 if [ "${UPDATE}" = "true" ]; then
     UPDATE_EXTRA_ARGS=${INPUT_UPDATE_EXTRA_ARGS}
+    set -x
     west update ${UPDATE_EXTRA_ARGS}
+    set +x
 fi
 
 if [ "${BUILD}" = "true" ]; then
@@ -21,8 +26,10 @@ if [ "${BUILD}" = "true" ]; then
     BUILD_APP_DIR="${INPUT_BUILD_APP_DIR:?Missing application directory}"
     BUILD_DIR="${INPUT_BUILD_DIR:-build/${BUILD_BOARD}/$(basename ${BUILD_APP_DIR})}"
     CMAKE_EXTRA_ARGS="${INPUT_CMAKE_EXTRA_ARGS}"
+    set -x
     west build -p auto -b "${BUILD_BOARD}" -d "${BUILD_DIR}" "${BUILD_APP_DIR}" \
         -- ${CMAKE_EXTRA_ARGS}
+    set +x
 
 fi
 
@@ -40,8 +47,10 @@ if [ "${TWISTER}" = "true" ]; then
             TWISTER_ARGS="${TWISTER_ARGS} -O ${INPUT_TWISTER_BUILD_DIR}"
         fi
     fi
+    set -x
     ./zephyr/scripts/twister -p "${TWISTER_BOARD}" ${TWISTER_ARGS} \
         -T "${TWISTER_APP_DIR}"
+    set +x
 fi
 
 # Signing manifest shall contain on each line path of the application to sign
@@ -63,9 +72,11 @@ if [ "${SIGN}" = "true" ]; then
             echo "Error: ${APP} invalid directory"
             exit 1
         fi
+        set -x
         west --verbose sign -d ${APP} -t imgtool \
             -p bootloader/mcuboot/scripts/imgtool.py \
             -- --key ${SIGN_KEY} --align ${SIGN_ALIGNMENT} --pad \
             --version ${VERSION}
+        set +x
     done <${SIGN_MANIFEST}
 fi
