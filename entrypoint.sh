@@ -6,8 +6,6 @@ TWISTER="${INPUT_TWISTER:-false}"
 BUILD="${INPUT_BUILD:-false}"
 SIGN="${INPUT_SIGN:-false}"
 
-env
-
 if [ "${INIT}" = "true" ]; then
     set -x
     west init -l ${MANIFESTDIR}
@@ -43,9 +41,9 @@ if [ "${TWISTER}" = "true" ]; then
             echo "Error: INPUT_TWISTER_BOARD_ROOT: invalid directory ${INPUT_TWISTER_BOARD_ROOT}"
             exit 1
         fi
-        if [ ! -z ${INPUT_TWISTER_BUILD_DIR} ]; then
-            TWISTER_ARGS="${TWISTER_ARGS} -O ${INPUT_TWISTER_BUILD_DIR}"
-        fi
+    fi
+    if [ ! -z ${INPUT_TWISTER_BUILD_DIR} ]; then
+        TWISTER_ARGS="${TWISTER_ARGS} -O ${INPUT_TWISTER_BUILD_DIR}"
     fi
     set -x
     ./zephyr/scripts/twister -p "${TWISTER_BOARD}" ${TWISTER_ARGS} \
