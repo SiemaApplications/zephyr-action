@@ -32,7 +32,6 @@ if [ "${BUILD}" = "true" ]; then
 fi
 
 if [ "${TWISTER}" = "true" ]; then
-    TWISTER_BOARD="${INPUT_TWISTER_BOARD:?Missing board target name}"
     TWISTER_APP_DIR="${INPUT_TWISTER_APP_DIR:?Missing application directory}"
     if [ ! -z "${INPUT_TWISTER_BOARD_ROOT}" ]; then
         if [ -d ${INPUT_TWISTER_BOARD_ROOT} ]; then
@@ -42,12 +41,19 @@ if [ "${TWISTER}" = "true" ]; then
             exit 1
         fi
     fi
+
     if [ ! -z ${INPUT_TWISTER_BUILD_DIR} ]; then
         TWISTER_ARGS="${TWISTER_ARGS} -O ${INPUT_TWISTER_BUILD_DIR}"
     fi
+
+    if [ ! -z ${INPUT_TWISTER_BOARD} ]; then
+        TWISTER_ARGS="${TWISTER_ARGS} -p ${INPUT_TWISTER_BOARD}"
+    fi
+
     set -x
-    ./zephyr/scripts/twister -p "${TWISTER_BOARD}" ${TWISTER_ARGS} \
-        -T "${TWISTER_APP_DIR}"
+    ./zephyr/scripts/twister ${TWISTER_ARGS} \
+        -T "${TWISTER_APP_DIR}" \
+        ${INPUT_TWISTER_EXTRA_ARGS}
     set +x
 fi
 

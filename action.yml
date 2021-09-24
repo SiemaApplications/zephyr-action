@@ -55,6 +55,11 @@ inputs:
       Output directory for twister.
     required: false
 
+  twister_extra_args:
+    description: >
+      Extra arguments directly passed to twister
+    reuiqred: false
+
   build:
     description: >
       When set to true, runs west build on directory specified in build_app_dir
@@ -113,6 +118,6 @@ inputs:
 
 runs:
   using: 'docker'
-  image: 'docker://ghcr.io/siemaapplications/zephyr-action:v2.1.2'
+  image: 'docker://ghcr.io/siemaapplications/zephyr-action:v2.2.0'
   entrypoint: '/entrypoint.sh'
   post-entrypoint: '/cleanup.sh'
