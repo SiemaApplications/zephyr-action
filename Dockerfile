@@ -49,6 +49,10 @@ RUN dpkg --add-architecture i386 && \
 	socat \
 	sudo \
 	xz-utils && \
+	wget https://apt.kitware.com/kitware-archive.sh && \
+	bash kitware-archive.sh && \
+	rm kitware-archive.sh && \
+	apt-get install --no-install-recommends -y cmake && \
 	rm -rf /var/lib/apt/lists/*
 
 
