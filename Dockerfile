@@ -57,19 +57,24 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
+ARG ZEPHYR_VERSION=v2.7.0
+# mcuboot version retrieved from zephyr's manifest at ZEPHYR_VERSION.
+ARG MCUBOOT_VERSION=70bfbd21cdf5f6d1402bc8d0031e197222ed2ec0
+
 RUN pip3 install wheel &&\
-	pip3 install -r https://raw.githubusercontent.com/zephyrproject-rtos/zephyr/master/scripts/requirements.txt && \
-	pip3 install -r https://raw.githubusercontent.com/zephyrproject-rtos/mcuboot/master/scripts/requirements.txt && \
+	pip3 install -r https://raw.githubusercontent.com/zephyrproject-rtos/zephyr/${ZEPHYR_VERSION}/scripts/requirements.txt && \
+	pip3 install -r https://raw.githubusercontent.com/zephyrproject-rtos/mcuboot/${MCUBOOT_VERSION}/scripts/requirements.txt && \
 	pip3 install west &&\
 	pip3 install sh
 
 RUN mkdir -p /opt/
 
-ARG ZSDK_VERSION=0.12.2
+ARG ZSDK_VERSION=0.13.1
 ARG ARCH=arm
-RUN wget -q --show-progress --progress=bar:force:noscroll --no-check-certificate https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v${ZSDK_VERSION}/zephyr-toolchain-${ARCH}-${ZSDK_VERSION}-x86_64-linux-setup.run && \
-	sh "zephyr-toolchain-${ARCH}-${ZSDK_VERSION}-x86_64-linux-setup.run" --quiet -- -d /opt/zephyr-sdk-${ZSDK_VERSION} && \
-	rm "zephyr-toolchain-${ARCH}-${ZSDK_VERSION}-x86_64-linux-setup.run"
+ARG TOOLCHAIN_SCRIPT=zephyr-toolchain-${ARCH}-${ZSDK_VERSION}-linux-x86_64-setup.run
+RUN wget -q --show-progress --progress=bar:force:noscroll --no-check-certificate https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v${ZSDK_VERSION}/${TOOLCHAIN_SCRIPT} && \
+	sh "${TOOLCHAIN_SCRIPT}" --quiet -- -d /opt/zephyr-sdk-${ZSDK_VERSION} && \
+	rm "${TOOLCHAIN_SCRIPT}"
 
 RUN groupadd -g $GID -o user \
 	&& useradd -u $UID -m -g user -G plugdev user \
