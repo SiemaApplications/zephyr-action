@@ -65,10 +65,12 @@ ARG ZEPHYR_VERSION=v2.7.0
 # mcuboot version retrieved from zephyr's manifest at ZEPHYR_VERSION.
 ARG MCUBOOT_VERSION=70bfbd21cdf5f6d1402bc8d0031e197222ed2ec0
 
+# Install required python package minus imgtool, for which we want to use the one delivered with mcuboot's project
 RUN pip3 install wheel &&\
 	pip3 install -r https://raw.githubusercontent.com/zephyrproject-rtos/zephyr/${ZEPHYR_VERSION}/scripts/requirements.txt && \
 	pip3 install -r https://raw.githubusercontent.com/zephyrproject-rtos/mcuboot/${MCUBOOT_VERSION}/scripts/requirements.txt && \
 	pip3 install west &&\
+        pip3 uninstall -y imgtool && \
 	pip3 install sh
 
 RUN mkdir -p /opt/
