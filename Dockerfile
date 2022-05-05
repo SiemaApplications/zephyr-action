@@ -48,6 +48,7 @@ RUN dpkg --add-architecture i386 && \
 	qemu \
 	socat \
 	sudo \
+	xxd \
 	xz-utils && \
 	wget https://apt.kitware.com/kitware-archive.sh && \
 	bash kitware-archive.sh && \
