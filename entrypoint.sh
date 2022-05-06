@@ -28,6 +28,8 @@ fi
 # When running in github actions, if there was a cache hit we may face
 # https://github.com/actions/checkout/issues/760
 # so we need to add every west module as a git safe directory.
+pwd
+ls -ail
 set -x
 if [ "${UPDATE}" = "true" -a ! -z "${GITHUB_WORKSPACE}" ]; then
     # When zephyr folder is present it means there was a cache hit.
