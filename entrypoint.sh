@@ -6,40 +6,11 @@ TWISTER="${INPUT_TWISTER:-false}"
 BUILD="${INPUT_BUILD:-false}"
 SIGN="${INPUT_SIGN:-false}"
 
-trust_git_modules()
-{
-    west list
-
-    for d in $(west list | tail --lines=+2 | awk '{print $2}'); do
-        if [ -d "${d}" ]; then
-            git config --global --ad safe.directory "${GITHUB_WORKSPACE}/${d}"
-        fi
-    done
-}
-
 if [ "${INIT}" = "true" ]; then
     set -x
     west init -l ${MANIFESTDIR}
     set +x
 fi
-
-# When running in github actions, if there was a cache hit we may face
-# https://github.com/actions/checkout/issues/760
-# so we need to add every west module as a git safe directory.
-pwd
-ls -ail
-id
-groups
-set -x
-ls -ail zephyr
-ls -ail .west
-ls -ail vog-zephyr-nodes
-if [ "${UPDATE}" = "true" -a ! -z "${GITHUB_WORKSPACE}" ]; then
-    # When zephyr folder is present it means there was a cache hit.
-    chown $(id -u):$(id -g) -R *
-fi
-ls -ail
-set +x
 
 if [ "${UPDATE}" = "true" ]; then
     UPDATE_EXTRA_ARGS=${INPUT_UPDATE_EXTRA_ARGS}
