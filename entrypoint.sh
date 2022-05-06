@@ -32,7 +32,11 @@ fi
 # so we need to add every west module as a git safe directory.
 pwd
 ls -ail
+id
+groups
 set -x
+ls -ail zephyr
+ls -ail .west
 if [ "${UPDATE}" = "true" -a ! -z "${GITHUB_WORKSPACE}" ]; then
     # When zephyr folder is present it means there was a cache hit.
     if [ -d ${GITHUB_WORKSPACE}/zephyr ]; then
