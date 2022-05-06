@@ -8,6 +8,8 @@ SIGN="${INPUT_SIGN:-false}"
 
 trust_git_modules()
 {
+    west list
+
     for d in $(west list | tail --lines=+2 | awk '{print $2}'); do
         if [ -d "${d}" ]; then
             git config --global --ad safe.directory "${GITHUB_WORKSPACE}/${d}"
