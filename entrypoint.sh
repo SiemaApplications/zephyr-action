@@ -37,6 +37,10 @@ groups
 set -x
 ls -ail zephyr
 ls -ail .west
+ls -ail vog-zephyr-nodes
+cat .west/config
+cat vog-zephyr-nodes/west.yml
+
 if [ "${UPDATE}" = "true" -a ! -z "${GITHUB_WORKSPACE}" ]; then
     # When zephyr folder is present it means there was a cache hit.
     if [ -d ${GITHUB_WORKSPACE}/zephyr ]; then
