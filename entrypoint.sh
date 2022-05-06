@@ -17,10 +17,6 @@ trust_git_modules()
     done
 }
 
-if [ ! -z "${GITHUB_WORKSPACE}" ]; then
-    git config --global --add safe.directory "${GITHUB_WORKSPACE}"
-fi
-
 if [ "${INIT}" = "true" ]; then
     set -x
     west init -l ${MANIFESTDIR}
@@ -38,19 +34,11 @@ set -x
 ls -ail zephyr
 ls -ail .west
 ls -ail vog-zephyr-nodes
-cat .west/config
-cat vog-zephyr-nodes/west.yml
-
-west manifest --resolve
-west manifest --path
-west manifest --validate
-
 if [ "${UPDATE}" = "true" -a ! -z "${GITHUB_WORKSPACE}" ]; then
     # When zephyr folder is present it means there was a cache hit.
-    if [ -d ${GITHUB_WORKSPACE}/zephyr ]; then
-        trust_git_modules
-    fi
+    chown $(id -u):$(id -g) -R *
 fi
+ls -ail
 set +x
 
 if [ "${UPDATE}" = "true" ]; then

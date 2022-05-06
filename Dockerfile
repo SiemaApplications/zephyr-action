@@ -92,7 +92,6 @@ RUN groupadd -g $GID -o user \
 VOLUME /src
 WORKDIR /src
 
-COPY setup.sh /setup.sh
 COPY entrypoint.sh /entrypoint.sh
 COPY cleanup.sh /cleanup.sh
 ENTRYPOINT ["/entrypoint.sh"]
