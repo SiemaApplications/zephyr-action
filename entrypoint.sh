@@ -24,11 +24,11 @@ if [ "${UPDATE}" = "true" ]; then
     # cache hit. In that case file ownership does not match between steps running directly on github
     # runner (docker user) and user running this script from github action step (root).
     # It is therefore necessary trust each repos in the cache.
+    set -x
     if [ ! -z "${GITHUB_WORKSPACE}" -a -d zephyr/ ]; then
         trust_git_repos
     fi
     UPDATE_EXTRA_ARGS=${INPUT_UPDATE_EXTRA_ARGS}
-    set -x
     west update --narrow --fetch-opt=--depth=1 ${UPDATE_EXTRA_ARGS}
     set +x
 fi
