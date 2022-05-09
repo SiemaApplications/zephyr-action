@@ -6,6 +6,13 @@ TWISTER="${INPUT_TWISTER:-false}"
 BUILD="${INPUT_BUILD:-false}"
 SIGN="${INPUT_SIGN:-false}"
 
+trust_git_repos()
+{
+    for d in $(west list | tail +2 | awk '{print $2}'); do
+        git config --global --add safe.directory $(pwd)/${d}
+    done
+}
+
 if [ "${INIT}" = "true" ]; then
     set -x
     west init -l ${MANIFESTDIR}
@@ -13,6 +20,13 @@ if [ "${INIT}" = "true" ]; then
 fi
 
 if [ "${UPDATE}" = "true" ]; then
+    # If running from github action and zephyr directory is already present it means there was a
+    # cache hit. In that case file ownership does not match between steps running directly on github
+    # runner (docker user) and user running this script from github action step (root).
+    # It is therefore necessary trust each repos in the cache.
+    if [ ! -z "${GITHUB_WORKSPACE}" -a -d zephyr/ ]; then
+        trust_git_repos
+    fi
     UPDATE_EXTRA_ARGS=${INPUT_UPDATE_EXTRA_ARGS}
     set -x
     west update --narrow --fetch-opt=--depth=1 ${UPDATE_EXTRA_ARGS}
