@@ -1,9 +1,15 @@
+**This action is deprecated !**
+
+Please switch to a workflow using container rather than a step running in a container:
+
+https://github.com/SiemaApplications/zephyr-arm-docker-image/
+
 # Zephyr Build
 This action is used to manage `west` repository. (init, update, build, twister, ...)
 
 # Usage
 ```yaml
-- uses: SiemaApplications/zephyr-action@v3.1.1
+- uses: SiemaApplications/zephyr-action@v3.1.0
   with:
     manifestdir: 'out-of-tree-manifest-repository'
     init: 'true'
