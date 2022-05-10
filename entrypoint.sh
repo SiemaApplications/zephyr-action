@@ -1,4 +1,10 @@
 #!/bin/sh -e
+echo "********************************************************************************"
+echo "* This action is deprecated !                                                  *
+echo "* Please switch to a workflow using container rather than a step running in a  *
+echo "* container:                                                                   *
+echo "* https://github.com/SiemaApplications/zephyr-arm-docker-image/                *
+echo "********************************************************************************"
 MANIFESTDIR="${INPUT_MANIFESTDIR:?INPUT_MANIFESTDIR must be specified}"
 INIT="${INPUT_INIT:-false}"
 UPDATE="${INPUT_UPDATE:-false}"
